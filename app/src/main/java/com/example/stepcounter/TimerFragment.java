@@ -3,6 +3,7 @@ package com.example.stepcounter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -90,12 +91,31 @@ public class TimerFragment extends Fragment implements SensorEventListener {
         previewsTotalSteps = savedNumber;
     }
 
+    // @Override
+    //public void onSensorChanged(SensorEvent event) {
+    //    if(event.sensor.getType() == Sensor.TYPE_STEP_COUNTER){
+    //        totalSteps = (int) event.values[0];
+    //        int currentSteps = totalSteps-previewsTotalSteps;
+    //        steps.setText(String.valueOf(currentSteps));
+
+    //        progressBar.setProgress(currentSteps);
+    //    }
+    //}
     @Override
     public void onSensorChanged(SensorEvent event) {
         if(event.sensor.getType() == Sensor.TYPE_STEP_COUNTER){
             totalSteps = (int) event.values[0];
-            int currentSteps = totalSteps-previewsTotalSteps;
+            int currentSteps = totalSteps - previewsTotalSteps;
             steps.setText(String.valueOf(currentSteps));
+
+            // Mettre à jour la couleur du texte en fonction du nombre de pas
+            if (currentSteps >= 100) {
+                steps.setTextColor(Color.RED);
+            } else if (currentSteps >= 50) {
+                steps.setTextColor(Color.GREEN);
+            } else {
+                steps.setTextColor(Color.BLACK);
+            }
 
             progressBar.setProgress(currentSteps);
         }
